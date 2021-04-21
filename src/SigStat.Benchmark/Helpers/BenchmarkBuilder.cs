@@ -19,7 +19,6 @@ namespace SigStat.Benchmark
         Dictionary<string, Sampler> samplers;
         Dictionary<string, DataSetLoader> loaders;
         Dictionary<string, Type> interpolations;
-
         public BenchmarkBuilder(string databasePath = null)
         {
             samplers = new Dictionary<string, Sampler>()
