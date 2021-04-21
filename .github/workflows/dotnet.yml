@@ -2,9 +2,9 @@ name: .NET
 
 on:
   push:
-    branches: [ codacy_refactor ]
+    branches: [ develop ]
   pull_request:
-    branches: [ codacy_refactor ]
+    branches: [ develop ]
 
 jobs:
   build:
