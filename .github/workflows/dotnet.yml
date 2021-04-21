@@ -39,5 +39,5 @@ jobs:
       
         body: A  a unit tesztek hibat talaltak!
       
-        to: szarvady.ambrus@gmail.com,szarvad.ambrus1998@gmail.com
+        to: szarvady.ambrus@gmail.com
         from: SigStat
