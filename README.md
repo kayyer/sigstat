@@ -27,6 +27,7 @@ Signature verification plays a very important role in our lives. Companies and o
 
 # Features
 
+
 - offline signature verification
 - online signature verification
 
