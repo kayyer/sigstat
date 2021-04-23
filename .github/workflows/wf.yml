@@ -26,17 +26,8 @@ jobs:
       run: dotnet build --no-restore
     - name: Unit Testek Futtatasa
       run: dotnet test --no-build --verbosity normal
-
-    - name: Uzenet Kuldese Hiba Eseten
-      if: failure()
-      uses: dawidd6/action-send-mail@v2
-      with:
-        server_address: smtp.gmail.com
-        server_port: 465
-        username: ${{secrets.MAIL_USERNAME}}
-        password: ${{secrets.MAIL_PASSWORD}}
-        subject: Sikertelen Unit test
-        body: A unit tesztek hibat talaltak
-        to: ${{github.event.pusher.email}}
-        from: SigStat
-      
+    - name: email
+      run: |
+        echo "vmi"
+        echo "${{github.event.pusher.email}}"
+        echo "vege"
