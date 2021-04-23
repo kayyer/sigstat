@@ -37,5 +37,5 @@ jobs:
         password: ${{secrets.MAIL_PASSWORD}}
         subject: Sikertelen Unit test
         body: "A unit tesztek hibat talaltak! ${{ github.actor }}"
-        to: ${{ github.actor }}@users.noreply.github.com
+        to: kayyer@users.noreply.github.com
         from: SigStat
