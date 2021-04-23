@@ -1,30 +1,114 @@
-name: .NET
+Skip to content
+Search or jump to…
 
-on:
-  push:
-    branches: [ develop ]
-  pull_request:
-    branches: [ develop ]
-
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@kayyer 
+rlespinasse
+/
+git-commit-data-action
+1
+11
+4
+Code
+Issues
+Pull requests
+Actions
+Projects
+Security
+Insights
+git-commit-data-action/.github/workflows/ci.yml
+@rlespinasse
+rlespinasse fix: use the correct variable to expose body message
+Latest commit a7039b1 on Mar 17
+ History
+ 1 contributor
+72 lines (70 sloc)  2.24 KB
+  
+name: Build
+on: [push, pull_request]
 jobs:
   build:
-
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     runs-on: ubuntu-latest
     steps:
-    - name: Expose git commit data
-      uses: rlespinasse/git-commit-data-action@v1.x
+      - uses: actions/checkout@v2
+        with:
+          # Need to download all history in order
+          # to make the tests work properly
+          fetch-depth: 0
+      - uses: docker://ffurrer/bats:latest
+        with:
+          args: "--recursive ."
+      - uses: cycjimmy/semantic-release-action@v2
+        with:
+          semantic_version: 17.0.7
+          branches: |
+            [
+              'v1.x'
+            ]
+          extra_plugins: |
+            @semantic-release/changelog@5.0.1
+            @semantic-release/git@9.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
-    - name: Print git commit data
-      run: |
-        echo "Get author info"
-        echo " - ${{ env.GIT_COMMIT_AUTHOR }}"
-        echo " - ${{ env.GIT_COMMIT_AUTHOR_NAME }}"
-        echo " - ${{ env.GIT_COMMIT_AUTHOR_EMAIL }}"
-        echo "Get committer info"
-        echo " - ${{ env.GIT_COMMIT_COMMITTER }}"
-        echo " - ${{ env.GIT_COMMIT_COMMITTER_NAME }}"
-        echo " - ${{ env.GIT_COMMIT_COMMITTER_EMAIL }}"
-        echo "Get message info"
-        echo " - ${{ env.GIT_COMMIT_MESSAGE_SUBJECT }}"
-        echo " - ${{ env.GIT_COMMIT_MESSAGE_SUBJECT_SANITIZED }}"
-        echo " - ${{ env.GIT_COMMIT_MESSAGE_BODY }}"
+  os-test:
+    runs-on: ${{ matrix.os  }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+      - name: Output
+        run: |
+          echo "Get author info"
+          echo " - ${{ env.GIT_COMMIT_AUTHOR }}"
+          echo " - ${{ env.GIT_COMMIT_AUTHOR_NAME }}"
+          echo " - ${{ env.GIT_COMMIT_AUTHOR_EMAIL }}"
+          echo "Get committer info"
+          echo " - ${{ env.GIT_COMMIT_COMMITTER }}"
+          echo " - ${{ env.GIT_COMMIT_COMMITTER_NAME }}"
+          echo " - ${{ env.GIT_COMMIT_COMMITTER_EMAIL }}"
+          echo "Get message info"
+          echo " - ${{ env.GIT_COMMIT_MESSAGE_SUBJECT }}"
+          echo " - ${{ env.GIT_COMMIT_MESSAGE_SUBJECT_SANITIZED }}"
+          echo " - ${{ env.GIT_COMMIT_MESSAGE_BODY }}"
+  win-test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+      - name: Output
+        run: |
+          echo "Get author info"
+          echo " - $env:GIT_COMMIT_AUTHOR"
+          echo " - $env:GIT_COMMIT_AUTHOR_NAME"
+          echo " - $env:GIT_COMMIT_AUTHOR_EMAIL"
+          echo "Get committer info"
+          echo " - $env:GIT_COMMIT_COMMITTER"
+          echo " - $env:GIT_COMMIT_COMMITTER_NAME"
+          echo " - $env:GIT_COMMIT_COMMITTER_EMAIL"
+          echo "Get message info"
+          echo " - $env:GIT_COMMIT_MESSAGE_SUBJECT"
+          echo " - $env:GIT_COMMIT_MESSAGE_SUBJECT_SANITIZED"
+          echo " - $env:GIT_COMMIT_MESSAGE_BODY"
+© 2021 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+Loading complete
