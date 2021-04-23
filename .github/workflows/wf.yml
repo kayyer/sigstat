@@ -1,72 +1,42 @@
-name: Build
-on: [push, pull_request]
+name: .NET
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
 jobs:
   build:
-    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          # Need to download all history in order
-          # to make the tests work properly
-          fetch-depth: 0
-      - uses: docker://ffurrer/bats:latest
-        with:
-          args: "--recursive ."
-      - uses: cycjimmy/semantic-release-action@v2
-        with:
-          semantic_version: 17.0.7
-          branches: |
-            [
-              'v1.x'
-            ]
-          extra_plugins: |
-            @semantic-release/changelog@5.0.1
-            @semantic-release/git@9.0.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+    defaults:
+      run:
+        working-directory: test/SigStat.Common.Test
 
-  os-test:
-    runs-on: ${{ matrix.os  }}
-    strategy:
-      matrix:
-        os:
-          - ubuntu-latest
-          - macos-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: ./
-      - name: Output
-        run: |
-          echo "Get author info"
-          echo " - ${{ env.GIT_COMMIT_AUTHOR }}"
-          echo " - ${{ env.GIT_COMMIT_AUTHOR_NAME }}"
-          echo " - ${{ env.GIT_COMMIT_AUTHOR_EMAIL }}"
-          echo "Get committer info"
-          echo " - ${{ env.GIT_COMMIT_COMMITTER }}"
-          echo " - ${{ env.GIT_COMMIT_COMMITTER_NAME }}"
-          echo " - ${{ env.GIT_COMMIT_COMMITTER_EMAIL }}"
-          echo "Get message info"
-          echo " - ${{ env.GIT_COMMIT_MESSAGE_SUBJECT }}"
-          echo " - ${{ env.GIT_COMMIT_MESSAGE_SUBJECT_SANITIZED }}"
-          echo " - ${{ env.GIT_COMMIT_MESSAGE_BODY }}"
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 2.2.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Unit Testek Futtatasa
+      run: dotnet test --no-build --verbosity normal
 
-  win-test:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ./
-      - name: Output
-        run: |
-          echo "Get author info"
-          echo " - $env:GIT_COMMIT_AUTHOR"
-          echo " - $env:GIT_COMMIT_AUTHOR_NAME"
-          echo " - $env:GIT_COMMIT_AUTHOR_EMAIL"
-          echo "Get committer info"
-          echo " - $env:GIT_COMMIT_COMMITTER"
-          echo " - $env:GIT_COMMIT_COMMITTER_NAME"
-          echo " - $env:GIT_COMMIT_COMMITTER_EMAIL"
-          echo "Get message info"
-          echo " - $env:GIT_COMMIT_MESSAGE_SUBJECT"
-          echo " - $env:GIT_COMMIT_MESSAGE_SUBJECT_SANITIZED"
-          echo " - $env:GIT_COMMIT_MESSAGE_BODY"
+    - name: Uzenet Kuldese Hiba Eseten
+      if: failure()
+      uses: dawidd6/action-send-mail@v2
+      with:
+        server_address: smtp.gmail.com
+        server_port: 465
+        username: ${{secrets.MAIL_USERNAME}}
+        password: ${{secrets.MAIL_PASSWORD}}
+        subject: Sikertelen Unit test
+        body: A unit tesztek hibat talaltak
+        to: ${{github.event.pusher.email}}
+        from: SigStat
+      
