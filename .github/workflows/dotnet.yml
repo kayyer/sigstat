@@ -26,11 +26,7 @@ jobs:
       run: dotnet build --no-restore
     - name: Unit Testek Futtatasa
       run: dotnet test --no-build --verbosity normal
-      
 
-    - name: Expose git commit data  
-      uses: rlespinasse/git-commit-data-action@v1.x
-     
     - name: Uzenet Kuldese Hiba Eseten
       if: failure()
       uses: dawidd6/action-send-mail@v2
@@ -40,6 +36,24 @@ jobs:
         username: ${{secrets.MAIL_USERNAME}}
         password: ${{secrets.MAIL_PASSWORD}}
         subject: Sikertelen Unit test
-        body: "A unit tesztek hibat talaltak! ${{ github.actor }} ${{ env.GIT_COMMIT_AUTHOR }} ${{ env.GIT_COMMIT_COMMITTER }}"
+        body: "A unit tesztek hibat talaltak
         to: szarvady.ambrus@gmail.com
         from: SigStat
+        
+    - name: Expose git commit data
+      uses: rlespinasse/git-commit-data-action@v1.x
+
+    - name: Print git commit data
+      run: |
+        echo "Get author info"
+        echo " - ${{ env.GIT_COMMIT_AUTHOR }}"
+        echo " - ${{ env.GIT_COMMIT_AUTHOR_NAME }}"
+        echo " - ${{ env.GIT_COMMIT_AUTHOR_EMAIL }}"
+        echo "Get committer info"
+        echo " - ${{ env.GIT_COMMIT_COMMITTER }}"
+        echo " - ${{ env.GIT_COMMIT_COMMITTER_NAME }}"
+        echo " - ${{ env.GIT_COMMIT_COMMITTER_EMAIL }}"
+        echo "Get message info"
+        echo " - ${{ env.GIT_COMMIT_MESSAGE_SUBJECT }}"
+        echo " - ${{ env.GIT_COMMIT_MESSAGE_SUBJECT_SANITIZED }}"
+        echo " - ${{ env.GIT_COMMIT_MESSAGE_BODY }}"
