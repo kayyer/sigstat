@@ -10,12 +10,32 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: test/SigStat.Common.Test
 
     steps:
-    - name: email
-      run: |
-        echo "Get author info"
-        echo "vmi"
-        echo "${{github.event.pusher.email}}"
-        echo "vege"
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 2.2.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Unit Testek Futtatasa
+      run: dotnet test --no-build --verbosity normal
+  
+    - name: Uzenet Kuldese Hiba Eseten
+      if: failure()
+      uses: dawidd6/action-send-mail@v2
+      with:
+        server_address: smtp.gmail.com
+        server_port: 465
+        username: ${{secrets.MAIL_USERNAME}}
+        password: ${{secrets.MAIL_PASSWORD}}
+        subject: Sikertelen Unit test
+        body: A unit tesztek hibat talaltak
+        to: ${{github.event.pusher.email}}
+          from: SigStat
