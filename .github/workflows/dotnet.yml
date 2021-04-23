@@ -36,6 +36,6 @@ jobs:
         username: ${{secrets.MAIL_USERNAME}}
         password: ${{secrets.MAIL_PASSWORD}}
         subject: Sikertelen Unit test
-        body: A unit tesztek hibat talaltak!
-        to: ${{ env.GIT_COMMIT_AUTHOR_EMAIL }}
+        body: A unit tesztek hibat talaltak! ${{ env.GIT_COMMIT_AUTHOR_EMAIL }}
+        to: szarvady.ambrus@gmail.com
         from: SigStat
