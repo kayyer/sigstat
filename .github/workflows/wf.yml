@@ -17,6 +17,7 @@ jobs:
     steps:
     - name: email
       run: |
+        echo "Get author info"
         echo "vmi"
         echo "${{github.event.pusher.email}}"
         echo "vege"
