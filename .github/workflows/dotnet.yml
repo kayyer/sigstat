@@ -1,59 +1,17 @@
-name: .NET
+- name: Expose git commit data
+  uses: rlespinasse/git-commit-data-action@v1.x
 
-on:
-  push:
-    branches: [ develop ]
-  pull_request:
-    branches: [ develop ]
-
-jobs:
-  build:
-
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: test/SigStat.Common.Test
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 2.2.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Unit Testek Futtatasa
-      run: dotnet test --no-build --verbosity normal
-
-    - name: Uzenet Kuldese Hiba Eseten
-      if: failure()
-      uses: dawidd6/action-send-mail@v2
-      with:
-        server_address: smtp.gmail.com
-        server_port: 465
-        username: ${{secrets.MAIL_USERNAME}}
-        password: ${{secrets.MAIL_PASSWORD}}
-        subject: Sikertelen Unit test
-        body: A unit tesztek hibat talaltak
-        to: szarvady.ambrus@gmail.com
-        from: SigStat
-        
-    - name: Expose git commit data
-      uses: rlespinasse/git-commit-data-action@v1.x
-
-    - name: Print git commit data
-      run: |
-        echo "Get author info"
-        echo " - ${{ env.GIT_COMMIT_AUTHOR }}"
-        echo " - ${{ env.GIT_COMMIT_AUTHOR_NAME }}"
-        echo " - ${{ env.GIT_COMMIT_AUTHOR_EMAIL }}"
-        echo "Get committer info"
-        echo " - ${{ env.GIT_COMMIT_COMMITTER }}"
-        echo " - ${{ env.GIT_COMMIT_COMMITTER_NAME }}"
-        echo " - ${{ env.GIT_COMMIT_COMMITTER_EMAIL }}"
-        echo "Get message info"
-        echo " - ${{ env.GIT_COMMIT_MESSAGE_SUBJECT }}"
-        echo " - ${{ env.GIT_COMMIT_MESSAGE_SUBJECT_SANITIZED }}"
-        echo " - ${{ env.GIT_COMMIT_MESSAGE_BODY }}"
+- name: Print git commit data
+  run: |
+    echo "Get author info"
+    echo " - ${{ env.GIT_COMMIT_AUTHOR }}"
+    echo " - ${{ env.GIT_COMMIT_AUTHOR_NAME }}"
+    echo " - ${{ env.GIT_COMMIT_AUTHOR_EMAIL }}"
+    echo "Get committer info"
+    echo " - ${{ env.GIT_COMMIT_COMMITTER }}"
+    echo " - ${{ env.GIT_COMMIT_COMMITTER_NAME }}"
+    echo " - ${{ env.GIT_COMMIT_COMMITTER_EMAIL }}"
+    echo "Get message info"
+    echo " - ${{ env.GIT_COMMIT_MESSAGE_SUBJECT }}"
+    echo " - ${{ env.GIT_COMMIT_MESSAGE_SUBJECT_SANITIZED }}"
+    echo " - ${{ env.GIT_COMMIT_MESSAGE_BODY }}"
