@@ -1,4 +1,3 @@
-
 name: .NET
 
 on:
@@ -9,13 +8,12 @@ on:
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: test/SigStat.Common.Test
-    env:
-      ADDRESS: ${{github.event.pusher.email}}
-      
+
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
@@ -41,4 +39,3 @@ jobs:
         body: A unit tesztek hibat talaltak
         to: ${{github.event.pusher.email}}
         from: SigStat
-        
