@@ -1,3 +1,4 @@
+
 name: .NET
 
 on:
@@ -8,12 +9,13 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    env:
+      ADDRESS: ${{github.event.pusher.email}}
     defaults:
       run:
         working-directory: test/SigStat.Common.Test
-
+      
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
@@ -37,5 +39,6 @@ jobs:
         password: ${{secrets.MAIL_PASSWORD}}
         subject: Sikertelen Unit test
         body: A unit tesztek hibat talaltak
-        to: ${{github.event.pusher.email}}
+        to: ADDRESS
         from: SigStat
+        
