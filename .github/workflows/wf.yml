@@ -10,8 +10,11 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    defaults: 
+      run:
+        working-directory: test/SigStat.Common.Test
   
-
+    
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
@@ -20,15 +23,17 @@ jobs:
         dotnet-version: 2.2.x
     - name: Restore dependencies
       run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Unit Testek Futtatasa
-      run: dotnet test --no-build --verbosity normal
       
     - name: Pull Request URL
       uses: kceb/pull-request-url-action@v2
       id: pr-url
       
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Unit Testek Futtatasa
+      run: dotnet test --no-build --verbosity normal
+      
+  
     - name: Uzenet Kuldese Hiba Eseten
       if: ${{ failure() && github.event_name == 'pull_request'}}
       uses: dawidd6/action-send-mail@v2
