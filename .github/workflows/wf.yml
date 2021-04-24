@@ -40,6 +40,6 @@ jobs:
         username: ${{secrets.MAIL_USERNAME}}
         password: ${{secrets.MAIL_PASSWORD}}
         subject: Sikertelen Unit test
-        body: A unit tesztek hibat talaltak  A pull_request linkje -> ${{steps.pr-url.outputs.url}}
+        body: "A unit tesztek hibat talaltak  A pull_request linkje -> ${{steps.pr-url.outputs.url}}"
         to: ${{github.event.pusher.email}}
         from: SigStat
