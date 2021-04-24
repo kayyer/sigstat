@@ -39,6 +39,6 @@ jobs:
         password: ${{secrets.MAIL_PASSWORD}}
         subject: Sikertelen Unit test
         body: A unit tesztek hibat talaltak
-        to: secrets.ADDR
+        to: ${{github.event.pusher.email}}
         from: SigStat
         
