@@ -31,7 +31,7 @@ jobs:
       id: pr-url
   
     - name: Uzenet Kuldese Hiba Eseten
-      if: failure()
+      if: ${{ failure() && github.event_name == 'pull_request'}}
       uses: dawidd6/action-send-mail@v2
       with:
         server_address: smtp.gmail.com
