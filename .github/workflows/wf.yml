@@ -10,11 +10,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      ADDRESS: ${{github.event.pusher.email}}
     defaults:
       run:
         working-directory: test/SigStat.Common.Test
+    env:
+      ADDRESS: ${{github.event.pusher.email}}
       
     steps:
     - uses: actions/checkout@v2
