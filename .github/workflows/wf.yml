@@ -13,7 +13,7 @@ jobs:
     defaults: 
       run:
         working-directory: test/SigStat.Common.Test
-  
+
     
     steps:
     - uses: actions/checkout@v2
