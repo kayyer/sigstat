@@ -16,6 +16,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Pull Request URL
+      uses: kceb/pull-request-url-action@v2
+      id: pr-url
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
@@ -27,9 +30,7 @@ jobs:
     - name: Unit Testek Futtatasa
       run: dotnet test --no-build --verbosity normal
       
-    - name: Pull Request URL
-      uses: kceb/pull-request-url-action@v2
-      id: pr-url
+ 
       
     - name: Uzenet Kuldese Hiba Eseten
       if: ${{ failure() && github.event_name == 'pull_request'}}
