@@ -23,11 +23,6 @@ jobs:
         dotnet-version: 2.2.x
     - name: Restore dependencies
       run: dotnet restore
-      
-    - name: Pull Request URL
-      uses: kceb/pull-request-url-action@v2
-      id: pr-url
-      
     - name: Build
       run: dotnet build --no-restore
     - name: Unit Testek Futtatasa
@@ -35,7 +30,7 @@ jobs:
       
   
     - name: Uzenet Kuldese Hiba Eseten
-      if: ${{ failure() && github.event_name == 'pull_request'}}
+      if: ${{ failure() }} ## && github.event_name == 'pull_request'}}
       uses: dawidd6/action-send-mail@v2
       with:
         server_address: smtp.gmail.com
@@ -43,6 +38,6 @@ jobs:
         username: ${{secrets.MAIL_USERNAME}}
         password: ${{secrets.MAIL_PASSWORD}}
         subject: Sikertelen Unit test
-        body: A unit tesztek hibat talaltak  A pull_request linkje -> ${{steps.pr-url.outputs.url}}
-        to: szarvady.ambrus@gmail.com
+        body: A unit tesztek hibat talaltak
+        to: ${{github.event.pusher.email}}
         from: SigStat
