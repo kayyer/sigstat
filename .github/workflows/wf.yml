@@ -26,13 +26,12 @@ jobs:
       run: dotnet build --no-restore
     - name: Unit Testek Futtatasa
       run: dotnet test --no-build --verbosity normal
-      
     - name: Pull Request URL
       uses: kceb/pull-request-url-action@v2
       id: pr-url
-      
+  
     - name: Uzenet Kuldese Hiba Eseten
-      if: ${{ failure() && github.event_name == 'pull_request'}}
+      if: failure()
       uses: dawidd6/action-send-mail@v2
       with:
         server_address: smtp.gmail.com
