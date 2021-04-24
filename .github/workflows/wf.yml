@@ -39,6 +39,6 @@ jobs:
         password: ${{secrets.MAIL_PASSWORD}}
         subject: Sikertelen Unit test
         body: A unit tesztek hibat talaltak
-        to: ADDRESS
+        to: env.ADDRESS
         from: SigStat
         
