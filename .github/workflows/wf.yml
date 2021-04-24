@@ -26,6 +26,9 @@ jobs:
       run: dotnet build --no-restore
     - name: Unit Testek Futtatasa
       run: dotnet test --no-build --verbosity normal
+      
+    - uses: kceb/pull-request-url-action@v1
+      id: pr-url
   
     - name: Uzenet Kuldese Hiba Eseten
       if: failure()
@@ -36,6 +39,6 @@ jobs:
         username: ${{secrets.MAIL_USERNAME}}
         password: ${{secrets.MAIL_PASSWORD}}
         subject: Sikertelen Unit test
-        body: A unit tesztek hibat talaltak
-        to: ${{secrets.ADDR}}
+        body: "A unit tesztek hibat talaltak  A pull_request linkje.: ${{ steps.pr-url.outputs.url}}"
+        to: ${{github.event.pusher.email}}
         from: SigStat
