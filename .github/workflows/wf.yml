@@ -28,7 +28,7 @@ jobs:
       run: dotnet test --no-build --verbosity normal
   
     - name: Uzenet Kuldese Hiba Eseten
-      if:  ${{ failure() }
+ 
       uses: dawidd6/action-send-mail@v2
       with:
         server_address: smtp.gmail.com
