@@ -36,7 +36,7 @@ jobs:
         username: ${{secrets.MAIL_USERNAME}}
         password: ${{secrets.MAIL_PASSWORD}}
         subject: Sikertelen Unit test
-        body: A unit tesztek hibat talaltak A Pull-Request linkje -> https://github.com/${{github.repository}}/pulls/${{github.event.number}}
+        body: A unit tesztek hibat talaltak ${{github.event.sender}} Vege1 ${{github.event.pull_request.sender.email}} vege2 ${{github.event.pull_request.sender.email}} vege3 A Pull-Request linkje -> https://github.com/${{github.repository}}/pull/${{github.event.number}}
         to: ${{github.event.pusher.email}}
         from: SigStat
         
