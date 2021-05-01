@@ -28,7 +28,7 @@ jobs:
       run: dotnet test --no-build --verbosity normal
   
     - name: Uzenet Kuldese Hiba Eseten
-      if:  ${{ failure() && github.event_name == 'pull_request'}}
+      if:  ${{ failure() }
       uses: dawidd6/action-send-mail@v2
       with:
         server_address: smtp.gmail.com
@@ -36,7 +36,7 @@ jobs:
         username: ${{secrets.MAIL_USERNAME}}
         password: ${{secrets.MAIL_PASSWORD}}
         subject: Sikertelen Unit test
-        body: A unit tesztek hibat talaltak A Pull-Request linkje -> https://github.com/${{github.repository}}/pulls/${{github.run_id}}
+        body: A unit tesztek hibat talaltak A Pull-Request linkje -> 
         to: ${{github.event.pusher.email}}
         from: SigStat
         
