@@ -21,7 +21,6 @@ jobs:
       shell: bash
     - name: Get email 2
       run: echo $EMAIL
-      shell: bash
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
