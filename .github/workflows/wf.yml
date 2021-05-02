@@ -46,6 +46,22 @@ jobs:
         body: A unit tesztek hibat talaltak A Pull-Request linkje -> https://github.com/${{github.repository}}/pull/${{github.event.number}}
         to: ${{env.EMAIL}}
         from: SigStat
-        
-            
+          
+    - name: Sikeres futas kommentje
+      if: success()
+      uses: peter-evans/commit-comment@v1
+      with:
+        body: |
+          **A Unit tesztek sikeresen lefutottak!**
+          
+    - name: Sikertelen futas kommentje
+      if: failure()
+      uses: peter-evans/commit-comment@v1
+      with:
+        body: |
+          **A Unit tesztek hibat talaltak!**
+          - [Ide kattintva talalsz bovebb informaciot][1]
+
+          [1]: https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
+         
 
