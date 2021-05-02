@@ -30,6 +30,8 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
+    - name: Unit testek
+      run: dotnet test --no-build --verbosity normal
  
      
     - name: Uzenet Kuldese Hiba Eseten
