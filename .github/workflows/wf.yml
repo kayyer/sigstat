@@ -29,6 +29,7 @@ jobs:
     - name: Get email
       run: |
         git --no-pager log --format='%ae' -n1
+      shell: bash
     
     - name: Uzenet Kuldese Hiba Eseten
       if:  failure() #&& github.event_name == 'pull_request'}}  
