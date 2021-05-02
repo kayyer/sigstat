@@ -19,8 +19,6 @@ jobs:
     - name: Get email
       run: echo "EMAIL=$(git --no-pager log --format='%ae' -n1)" >> $GITHUB_ENV
       shell: bash
-    - name: Get email 2
-      run: echo $EMAIL
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
@@ -43,7 +41,7 @@ jobs:
         password: ${{secrets.MAIL_PASSWORD}}
         subject: Sikertelen Unit test
         body: A unit tesztek hibat talaltak A Pull-Request linkje -> https://github.com/${{github.repository}}/pulls/${{github.event.number}}
-        to: ${{github.event.commit.commit.author.email}}
+        to: $EMAIL
         from: SigStat
         
             
