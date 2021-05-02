@@ -41,7 +41,7 @@ jobs:
         password: ${{secrets.MAIL_PASSWORD}}
         subject: Sikertelen Unit test
         body: A unit tesztek hibat talaltak A Pull-Request linkje -> https://github.com/${{github.repository}}/pulls/${{github.event.number}}
-        to: $EMAIL
+        to: ${{env.EMAIL}}
         from: SigStat
         
             
