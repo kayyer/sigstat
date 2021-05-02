@@ -26,7 +26,10 @@ jobs:
       run: dotnet build --no-restore
     - name: Unit Testek Futtatasa
       run: dotnet test --no-build --verbosity normal
-  
+    - name: Get email
+      run: |
+        git --no-pager log --format='%ae' -n1
+    
     - name: Uzenet Kuldese Hiba Eseten
       if:  failure() #&& github.event_name == 'pull_request'}}  
       uses: dawidd6/action-send-mail@v2
