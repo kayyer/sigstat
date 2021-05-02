@@ -65,6 +65,7 @@ jobs:
       with:
         body: |
           **A Unit tesztek sikeresen lefutottak!**
+        reactions: hooray
           
     - name: Sikertelen futas kommentje
       if: failure()
@@ -75,6 +76,8 @@ jobs:
           - [Ide kattintva talalsz bovebb informaciot][1]
 
           [1]: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
+        reactions: confused
+
 
 
          
