@@ -31,7 +31,9 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Unit testek
-      run: dotnet test --no-build --verbosity normal
+      run:  echo "::set-output name=dotnet-test--no-build--verbosity-normal::$(dotnet test --no-build --verbosity normal)"
+      id: run_tests
+
  
      
     - name: Uzenet Kuldese Pull request Hiba Eseten
@@ -65,6 +67,7 @@ jobs:
       with:
         body: |
           **A Unit tesztek sikeresen lefutottak!**
+          - ${{join(steps.run_tests.outputs.*, '\n')}}
           
     - name: Sikertelen futas kommentje
       if: failure()
@@ -72,6 +75,7 @@ jobs:
       with:
         body: |
           **A Unit tesztek hibat talaltak!**
+          - ${{join(steps.run_tests.outputs.*, '\n')}}
           - [Ide kattintva talalsz bovebb informaciot][1]
 
           [1]: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
