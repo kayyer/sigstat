@@ -56,7 +56,7 @@ jobs:
         username: ${{secrets.MAIL_USERNAME}}
         password: ${{secrets.MAIL_PASSWORD}}
         subject: Sikertelen Unit test
-        body: A unit tesztek hibat talaltak!}
+        body: A unit tesztek hibat talaltak! Link a commit-hoz -> https://github.com/${{github.repository}}/commit/${{github.sha}}
         to: ${{env.EMAIL}}
         from: SigStat
     - name: Sikeres futas kommentje
