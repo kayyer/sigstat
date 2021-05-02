@@ -26,8 +26,6 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 2.2.x
-    - name: Restore dependencies
-      run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
     - name: Unit Testek Futtatasa
@@ -62,6 +60,8 @@ jobs:
           **A Unit tesztek hibat talaltak!**
           - [Ide kattintva talalsz bovebb informaciot][1]
 
-          [1]: https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
+          [1]: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
+
+
          
 
