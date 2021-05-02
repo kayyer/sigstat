@@ -17,8 +17,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Get email
-      run: |
-        git --no-pager log --format='%ae' -n1
+      run: echo "EMAIL=$(git --no-pager log --format='%ae' -n1)" >> $GITHUB_ENV
+    - name: Get email 2
+      run: echo $EMAIL
       shell: bash
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
