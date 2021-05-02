@@ -63,6 +63,7 @@ jobs:
       if: success()
       uses: peter-evans/create-or-update-comment@v1
       with:
+        comment-id: 557858210
         body: |
           **A Unit tesztek sikeresen lefutottak!**
         reactions: hooray
@@ -71,6 +72,7 @@ jobs:
       if: failure()
       uses: peter-evans/create-or-update-comment@v1
       with:
+        comment-id: 557858210
         body: |
           **A Unit tesztek hibat talaltak!**
           - [Ide kattintva talalsz bovebb informaciot][1]
