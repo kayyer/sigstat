@@ -76,6 +76,8 @@ jobs:
           - [Ide kattintva talalsz bovebb informaciot][1]
 
           [1]: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
+    - name: test1
+      run: echo "${{steps.run_tests.outputs.test_output}}"
 
 
 
