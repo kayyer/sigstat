@@ -31,7 +31,7 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Unit testek
-      run:  echo "::set-output name=test_outputs::$(dotnet test --no-build --verbosity normal)\n"
+      run:  echo "::set-output name=test_outputs::$(dotnet test --no-build --verbosity normal)\n\n"
       id: run_tests
 
  
