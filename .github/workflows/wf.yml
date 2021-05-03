@@ -38,6 +38,7 @@ jobs:
         TOUT="${TOUT//$'\r'/'%0D'}"
         echo "::set-output name=test_outputs::$TOUT"
       id: run_tests
+      shell: bash
 
  
      
