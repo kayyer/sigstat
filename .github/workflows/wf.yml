@@ -32,7 +32,7 @@ jobs:
       run: dotnet build --no-restore
     - name: Unit testek
       run:  |
-        TOUT=$(dotnet test --no-build --verbosity normal)
+        TOUT="$(dotnet test --no-build --verbosity normal)"
         TOUT="${TOUT//'%'/'%25'}"
         TOUT="${TOUT//$'\n'/'%0A'}"
         TOUT="${TOUT//$'\r'/'%0D'}"
