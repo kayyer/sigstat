@@ -31,12 +31,7 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Unit testek
-      run:  |
-        $(dotnet test --no-build --verbosity normal) > changed-fields.out
-        output="$(cat changed-fields.out)"
-        output="${output//$'\n'/\\n}"
-        output="${output// / }" 
-        echo "::set-output name=test_output::$output"
+      run: echo "::set-output name=test_output::$(dotnet test --no-build --verbosity normal)"
       id: run_tests
       shell: bash
 
