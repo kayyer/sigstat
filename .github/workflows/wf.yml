@@ -31,12 +31,8 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Unit testek
-      run: echo "::set-output name=test_output::$(dotnet test --no-build --verbosity normal)"
-      id: run_tests
-      shell: bash
-
- 
-     
+      run: echo "::set-output name=test_output::$(dotnet test --no-build --verbosity normal)\n"
+      id: run_tests 
     - name: Uzenet Kuldese Pull request Hiba Eseten
       if:  ${{failure() && (github.event_name == 'pull_request' || github.event.pull_request.merged == true)}}  
       uses: dawidd6/action-send-mail@v2
