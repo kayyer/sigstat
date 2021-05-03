@@ -32,9 +32,7 @@ jobs:
       run: dotnet build --no-restore
     - name: Unit testek
       run: echo "::set-output name=test_output::$(dotnet test --no-build --verbosity normal)\n"
-      id: run_tests 
-    - name: test1
-      run: echo "${{steps.run_tests.outputs.test_output}}"
+      id: run_tests
     - name: Uzenet Kuldese Pull request Hiba Eseten
       if:  ${{failure() && (github.event_name == 'pull_request' || github.event.pull_request.merged == true)}}  
       uses: dawidd6/action-send-mail@v2
@@ -70,14 +68,16 @@ jobs:
           
     - name: Sikertelen futas kommentje
       if: failure()
-      uses: peter-evans/commit-comment@v1
-      with:
-        body: |
-          **A Unit tesztek hibat talaltak!**
-          - ${{steps.run_tests.outputs.test_output}}
-          - [Ide kattintva talalsz bovebb informaciot][1]
+      run: echo "${{steps.run_tests.outputs.test_output}}"
 
-          [1]: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
+      #uses: peter-evans/commit-comment@v1
+      #with:
+       # body: |
+        #  **A Unit tesztek hibat talaltak!**
+         # - ${{steps.run_tests.outputs.test_output}}
+         # - [Ide kattintva talalsz bovebb informaciot][1]
+
+          #[1]: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
  
 
 
