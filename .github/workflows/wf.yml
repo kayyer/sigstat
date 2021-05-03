@@ -32,10 +32,10 @@ jobs:
       run: dotnet build --no-restore
     - name: Unit testek
       run:  |
-        output=$(dotnet test --no-build --verbosity normal)
-        output="${output//'%'/'%25'}"
-        output="${output//$'\n'/'%0A'}"
-        output="${output//$'\r'/'%0D'}"
+        $(dotnet test --no-build --verbosity normal) > changed-fields.out
+        output="$(cat changed-fields.out)"
+        output="${output//$'\n'/\\n}"
+        output="${output// / }" 
         echo "::set-output name=test_output::$output"
       id: run_tests
       shell: bash
