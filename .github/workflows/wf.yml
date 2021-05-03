@@ -31,12 +31,11 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Unit testek
-      run:  |
-        echo "TOUT=$(dotnet test --no-build --verbosity normal)"
-        echo "TOUT=${TOUT//'%'/'%25'}"
-        echo "TOUT=${TOUT//$'\n'/'%0A'}"
-        echo "TOUT=${TOUT//$'\r'/'%0D'}"
-        echo "::set-output name=test_outputs::$TOUT"
+      run: echo "TOUT=$(dotnet test --no-build --verbosity normal)" >> $GITHUB_ENV
+       # echo "TOUT=${TOUT//'%'/'%25'}"
+       #echo "TOUT=${TOUT//$'\n'/'%0A'}"
+       #echo "TOUT=${TOUT//$'\r'/'%0D'}"
+       #echo "::set-output name=test_outputs::$TOUT"
       id: run_tests
       shell: bash
 
@@ -73,7 +72,7 @@ jobs:
       with:
         body: |
           **A Unit tesztek sikeresen lefutottak!**
-          - ${{steps.run_tests.outputs.test_outputs}}
+          - ${{env.TOUT}} 
           
     - name: Sikertelen futas kommentje
       if: failure()
@@ -81,7 +80,7 @@ jobs:
       with:
         body: |
           **A Unit tesztek hibat talaltak!**
-          - ${{steps.run_tests.outputs.test_outputs}}
+          - ${{env.TOUT}} 
           - [Ide kattintva talalsz bovebb informaciot][1]
 
           [1]: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
