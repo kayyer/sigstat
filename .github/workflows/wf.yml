@@ -32,10 +32,11 @@ jobs:
       run: dotnet build --no-restore
     - name: Unit testek
       run:  |
-        echo "TOUT=$(dotnet test --no-build --verbosity normal)"
+        TOUT=$(dotnet test --no-build --verbosity normal)"
         TOUT="${TOUT//'%'/'%25'}"
         TOUT="${TOUT//$'\n'/'%0A'}"
         TOUT="${TOUT//$'\r'/'%0D'}"
+        echo $TOUT
         echo "::set-output name=test_outputs::$TOUT"
       id: run_tests
       shell: bash
