@@ -32,7 +32,7 @@ jobs:
       run: dotnet build --no-restore
     - name: Unit testek
       run: |
-       output=$(dotnet test --no-build --verbosity normal)
+       echo "output=$(dotnet test --no-build --verbosity normal)"
        echo "::set-output name=test_output::$output"
       id: run_tests
       shell: bash
@@ -63,11 +63,12 @@ jobs:
         from: SigStat
     - name: Sikeres futas kommentje
       if: success()
-      uses: peter-evans/commit-comment@v1
-      with:
-        body: |
-          **A Unit tesztek sikeresen lefutottak!**
-          - ${{steps.run_tests.outputs.test_output}}
+      run: echo "${{steps.run_tests.outputs.test_output}}"
+      #uses: peter-evans/commit-comment@v1
+      #with:
+       # body: |
+          #**A Unit tesztek sikeresen lefutottak!**
+         # - ${{steps.run_tests.outputs.test_output}}
           
     - name: Sikertelen futas kommentje
       if: failure()
