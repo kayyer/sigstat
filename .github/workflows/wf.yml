@@ -32,7 +32,7 @@ jobs:
       run: dotnet build --no-restore
     - name: Unit testek
       run: | 
-        echo "::set-output name=test_output::$(dotnet test --no-build --verbosity norma)"
+        echo "::set-output name=test_output::$(dotnet test --no-build --verbosity normal)"
       id: run_tests
       shell: bash
 
