@@ -32,8 +32,8 @@ jobs:
       run: dotnet build --no-restore
     - name: Unit testek
       run: | 
-        valtozo=$(dotnet test --no-build --verbosity normal)
-        echo $valtozo
+        echo $(dotnet test --no-build --verbosity normal)
+    
         echo "::set-output name=test_output::$(dotnet test --no-build --verbosity normal)"
       id: run_tests
       shell: bash
