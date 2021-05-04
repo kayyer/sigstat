@@ -32,7 +32,7 @@ jobs:
       run: dotnet build --no-restore
     - name: Unit testek
       run: |
-        TOUT=$(dotnet test --no-build --verbosity normal)"
+        TOUT=$(cat << dotnet test --no-build --verbosity normal)"
         echo "$TOUT<<EOF" >> $GITHUB_ENV
         echo "$TOUT" >> $GITHUB_ENV
         echo "EOF" >> $GITHUB_ENV
