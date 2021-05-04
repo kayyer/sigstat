@@ -33,7 +33,7 @@ jobs:
     - name: Unit testek
       run: | 
         save_out="szia"
-        echo "::set-output name=test_output::$save_out)"
+        echo "::set-output name=test_output::$save_out"
       id: run_tests
       shell: bash
     - name: Uzenet Kuldese Pull request Hiba Eseten
