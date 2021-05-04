@@ -31,7 +31,9 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Unit testek
-      run: echo "::set-output name=test_output::$(dotnet test --no-build --verbosity normal)"
+      run: | 
+        save_out=$(dotnet test --no-build --verbosity normal)
+        echo "::set-output name=test_output::$save_out)"
       id: run_tests
       shell: bash
     - name: Uzenet Kuldese Pull request Hiba Eseten
