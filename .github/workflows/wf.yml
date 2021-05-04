@@ -32,7 +32,10 @@ jobs:
       run: dotnet build --no-restore
     - name: Unit testek
       run: |
-       echo "::set-output name=test_output::$(cat outputFile | dotnet test --no-build --verbosity normal)"
+        TOUT=$(dotnet test --no-build --verbosity normal)"
+        echo "$TOUT<<EOF" >> $GITHUB_ENV
+        echo "$TOUT" >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
       id: run_tests
       shell: bash
     - name: Uzenet Kuldese Pull request Hiba Eseten
@@ -62,7 +65,7 @@ jobs:
         from: SigStat
     - name: Sikeres futas kommentje
       if: success()
-      run: echo "${{steps.run_tests.outputs.test_output}}"
+      run: echo "${{env.TOUT}}"
       #uses: peter-evans/commit-comment@v1
       #with:
        # body: |
@@ -71,7 +74,7 @@ jobs:
           
     - name: Sikertelen futas kommentje
       if: failure()
-      run: echo "${{steps.run_tests.outputs.test_output}}"
+      run: echo "${{env.TOUT}}"
 
       #uses: peter-evans/commit-comment@v1
       #with:
