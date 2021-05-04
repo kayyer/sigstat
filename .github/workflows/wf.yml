@@ -32,11 +32,19 @@ jobs:
       run: dotnet build --no-restore
     - name: Unit testek
       run: |
-        TOUT=$(cat << dotnet test --no-build --verbosity normal)"
+        TOUT=$(cat << dotnet test --no-build --verbosity normal)
+        orf="$(cat << dotnet test --no-build --verbosity normal)"
         dotnet test --no-build --verbosity normal > changed-fields.out
         output="$(cat changed-fields.out)"
+        echo "OUT=$(cat << dotnet test --no-build --verbosity normal)"
         echo "$output"
         echo "$TOUT"
+        echo "orf"
+        
+        echo $output
+        echo $TOUT
+        echo orf
+        
         echo "$TOUT<<EOF" >> $GITHUB_ENV
         echo "$TOUT" >> $GITHUB_ENV
         echo "EOF" >> $GITHUB_ENV
