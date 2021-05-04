@@ -64,23 +64,22 @@ jobs:
         from: SigStat
     - name: Sikeres futas kommentje
       if: success()
-      run: echo ${{steps.run_tests.outputs.test_output}}
-      #uses: peter-evans/commit-comment@v1
-      #with:
-       # body: |
+      uses: peter-evans/commit-comment@v1
+      with:
+        body: |
           #**A Unit tesztek sikeresen lefutottak!**
-         # - ${{steps.run_tests.outputs.test_output}}
+          - ${{env.MESSAGE}}
+
           
     - name: Sikertelen futas kommentje
       if: failure()
-      run: echo ${{steps.run_tests.outputs.test_output}}
-
-      #uses: peter-evans/commit-comment@v1
-      #with:
-       # body: |
-        #  **A Unit tesztek hibat talaltak!**
-         # - ${{steps.run_tests.outputs.test_output}}
-         # - [Ide kattintva talalsz bovebb informaciot][1]
+  
+      uses: peter-evans/commit-comment@v1
+      with:
+        body: |
+          **A Unit tesztek hibat talaltak!**
+          - ${{env.MESSAGE}}
+          - [Ide kattintva talalsz bovebb informaciot][1]
 
           #[1]: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
  
