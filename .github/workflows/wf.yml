@@ -33,6 +33,10 @@ jobs:
     - name: Unit testek
       run: |
         TOUT=$(cat << dotnet test --no-build --verbosity normal)"
+        dotnet test --no-build --verbosity normal > changed-fields.out
+        output="$(cat changed-fields.out)"
+        echo "$output"
+        echo "$TOUT"
         echo "$TOUT<<EOF" >> $GITHUB_ENV
         echo "$TOUT" >> $GITHUB_ENV
         echo "EOF" >> $GITHUB_ENV
