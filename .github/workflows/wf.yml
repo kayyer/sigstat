@@ -24,8 +24,8 @@ jobs:
       shell: bash
     
 
-     - name: Install .NET
-       uses: actions/setup-dotnet@v1.7.2
+    - name: Install .NET
+      uses: actions/setup-dotnet@v1.7.2
       with:
           # Note: version 3.0.x or higher is required!
         dotnet-version: 5.0.x
