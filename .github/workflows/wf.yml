@@ -32,12 +32,9 @@ jobs:
       run: dotnet build --no-restore
     - name: Unit testek
       run: | 
-        vmi=$(dotnet test --no-build --verbosity normal 2>&1)
-        echo "$vmi"
-        vmi="${vmi//'%'/'%25'}"
-        vmi="${vmi//$'\n'/'%0A'}"
-        vmi="${vmi//$'\r'/'%0D'}"
-        echo "::set-env name=REPORT::$vmi"
+        echo 'MESSAGE<<EOF' >> $GITHUB_ENV
+        $(dotnet test --no-build --verbosity normal) >> $GITHUB_ENV
+        echo 'EOF' >> $GITHUB_ENV
 
     
       id: run_tests
