@@ -28,7 +28,7 @@ jobs:
       uses: actions/setup-dotnet@v1.7.2
       with:
           # Note: version 3.0.x or higher is required!
-        dotnet-version: 5.0.x
+        dotnet-version: 2.2.x
 
     - name: Build & test
         # Specify custom logger here  
