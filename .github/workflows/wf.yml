@@ -30,11 +30,17 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
+    - name: Publish Unit Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v1
+      if: always()
+      with:
+        files: test-results/**/*.xml
     - name: Unit testek
       run: | 
         echo 'MESSAGE<<EOF' >> $GITHUB_ENV
         $(dotnet test --no-build --verbosity normal) >> $GITHUB_ENV
         echo 'EOF' >> $GITHUB_ENV
+    
 
     
       id: run_tests
