@@ -15,25 +15,24 @@ jobs:
         working-directory: test/SigStat.Common.Test
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v2.3.3
     - name: Get email
       run: echo "EMAIL=$(git --no-pager log --format='%ae' -n1)" >> $GITHUB_ENV
       shell: bash
     - name: status
       run: git status
       shell: bash
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 2.2.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Unit testek
-      run: | 
-        echo "MESSAGE=&(dotnet test --no-build --verbosity normal)" >> $GITHUB_ENV
     
+
+     - name: Install .NET
+       uses: actions/setup-dotnet@v1.7.2
+      with:
+          # Note: version 3.0.x or higher is required!
+        dotnet-version: 5.0.x
+
+    - name: Build & test
+        # Specify custom logger here  
+      run: dotnet test --configuration Release --logger GitHubActions
       id: run_tests
       shell: bash
 
