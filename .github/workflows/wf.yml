@@ -38,14 +38,17 @@ jobs:
       id: run_tests
     
     - name: output change 
-      run:  echo "::set-output name=test_outputk::$(${{steps.run_tests.outputs.test_output}}//'%'/'%25') "
+      shell: bash
+      run:  echo "::set-output name=test_outputk::$("${{steps.run_tests.outputs.test_output}}"//'%'/'%25') "
       id: run_testsk
 
     - name: output change2
+      shell: bash
       run:  echo "::set-output name=test_outputh::$(${{steps.run_testsk.outputs.test_outputk}}//$'\n'/'%0A') "
       id: run_testsh
 
     - name: output change3
+      shell: bash
       run:  echo "::set-output name=test_outputn::$(${{steps.run_testsh.outputs.test_outputh}}//$'\r'/'%0D') "
       id: run_testsn
 
