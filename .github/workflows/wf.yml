@@ -37,12 +37,11 @@ jobs:
       id: hello
       with:
         path: text.txt
-      shell: bash
 
     - run: echo $TEXT
       env:
         TEXT: ${{ steps.hello.outputs.text }}
-      shell: bash
+      shell: bash 
     
     - name: Unit testek
       shell: bash
