@@ -30,11 +30,25 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
+
+    - run: echo -n -e "HELLO\n !\n World!" > text.txt
+
+    - uses: pCYSl5EDgo/cat@master
+      id: hello
+      with:
+        path: text.txt
+
+    - run: echo $TEXT
+      env:
+        TEXT: ${{ steps.hello.outputs.text }}
     
     - name: Unit testek
       shell: bash
       run: | 
         echo "::set-output name=test_output::$(dotnet test --no-build --verbosity normal)"
+        echo "szia mizu " >> vmi.txt
+        echo "::set-output name=teszt::$vmi"
+
       id: run_tests
     
     - name: output change 
