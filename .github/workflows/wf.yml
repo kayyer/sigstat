@@ -31,19 +31,15 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
 
-    - run: echo -n -e "HELLO\n !\n World!" > text.txt
-      shell: bash
-
-
     
     - name: Unit testek
       shell: bash
       run: | 
-        dotnet test --no-build --verbosity normal > text.txt
+        echo "dotnet test --no-build --verbosity normal" > text.txt
       id: run_tests
 
     - uses: pCYSl5EDgo/cat@master
-      if: failure()
+      if: always()
       id: hello
       with:
         path: text.txt
