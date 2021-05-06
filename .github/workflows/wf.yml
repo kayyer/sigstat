@@ -32,15 +32,13 @@ jobs:
       run: dotnet build --no-restore
     
     - name: Unit testek
+      shell: bash
       run: | 
-        vmi=$(dotnet test --logger "console;verbosity=normal" 2>&1)
-        vmi="${$vmi//'%'/'%25'}"
-        vmi="${$vmi//$'\n'/'%0A'}"
-        vmi="${$vmi//$'\r'/'%0D'}"
-        echo "::set-env name=REPORT::$vmi"
-    
+        echo "::set-output name=test_output::$(dotnet test --no-build --verbosity normal)"
+        echo "::set-output name=test_outputU::$(${{steps.run_tests.outputs.test_output}}//'%'/'%25') "
+        echo "::set-output name=test_outputUJ::$(${{steps.run_tests.outputs.test_outputU}}//$'\n'/'%0A') "
+        echo "::set-output name=output_of_tests::$(${{steps.run_tests.outputs.test_outputUJ}}//$'\r'/'%0D') "
       id: run_tests
-    
 
     - name: Uzenet Kuldese Pull request Hiba Eseten
       if:  ${{failure() && (github.event_name == 'pull_request' || github.event.pull_request.merged == true)}}  
@@ -72,8 +70,8 @@ jobs:
       uses: peter-evans/commit-comment@v1
       with:
         body: |
-          #**A Unit tesztek sikeresen lefutottak!**
-          - ${{env.REPORT}}
+          **A Unit tesztek sikeresen lefutottak!**
+          - ${{steps.run_tests.outputs.output_of_tests}}
 
           
     - name: Sikertelen futas kommentje
@@ -83,7 +81,8 @@ jobs:
       with:
         body: |
           **A Unit tesztek hibat talaltak!**
-          - ${{env.REPORT}}
+          - ${{steps.run_tests.outputs.output_of_tests}}
+
           - [Ide kattintva talalsz bovebb informaciot][1]
 
           #[1]: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
