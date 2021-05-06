@@ -32,15 +32,17 @@ jobs:
       run: dotnet build --no-restore
 
     - run: echo -n -e "HELLO\n !\n World!" > text.txt
-
+      shell: bash
     - uses: pCYSl5EDgo/cat@master
       id: hello
       with:
         path: text.txt
+      shell: bash
 
     - run: echo $TEXT
       env:
         TEXT: ${{ steps.hello.outputs.text }}
+      shell: bash
     
     - name: Unit testek
       shell: bash
