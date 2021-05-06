@@ -35,6 +35,7 @@ jobs:
     - name: Unit testek
       shell: bash
       run: | 
+         echo "Most"
          echo "teszst valami" > proba.txt
          echo "$(<text.txt )"
          echo "dotnet test --no-build --verbosity normal" > text.txt
