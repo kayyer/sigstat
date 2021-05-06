@@ -45,7 +45,7 @@ jobs:
       run:  echo "::set-output name=test_outputh::$(${{steps.run_testsk.outputs.test_outputk}}//$'\n'/'%0A') "
       id: run_testsh
 
-     - name: output change2
+    - name: output change3
       run:  echo "::set-output name=test_outputn::$(${{steps.run_testsh.outputs.test_outputh}}//$'\r'/'%0D') "
       id: run_testsn
 
