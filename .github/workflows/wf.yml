@@ -33,39 +33,20 @@ jobs:
 
     - run: echo -n -e "HELLO\n !\n World!" > text.txt
       shell: bash
+
+
+    
+    - name: Unit testek
+      shell: bash
+      run: | 
+        dotnet test --no-build --verbosity normal > text.txt
+      id: run_tests
+
     - uses: pCYSl5EDgo/cat@master
       id: hello
       with:
         path: text.txt
 
-    - run: echo $TEXT
-      env:
-        TEXT: ${{ steps.hello.outputs.text }}
-      shell: bash 
-    
-    - name: Unit testek
-      shell: bash
-      run: | 
-        echo "::set-output name=test_output::$(dotnet test --no-build --verbosity normal)"
-        echo "szia mizu " >> vmi.txt
-        echo "::set-output name=teszt::$vmi"
-
-      id: run_tests
-    
-    - name: output change 
-      shell: bash
-      run:  echo "::set-output name=test_outputk::$("${{steps.run_tests.outputs.test_output}}"//'%'/'%25') "
-      id: run_testsk
-
-    - name: output change2
-      shell: bash
-      run:  echo "::set-output name=test_outputh::$(${{steps.run_testsk.outputs.test_outputk}}//$'\n'/'%0A') "
-      id: run_testsh
-
-    - name: output change3
-      shell: bash
-      run:  echo "::set-output name=test_outputn::$(${{steps.run_testsh.outputs.test_outputh}}//$'\r'/'%0D') "
-      id: run_testsn
 
     - name: Uzenet Kuldese Pull request Hiba Eseten
       if:  ${{failure() && (github.event_name == 'pull_request' || github.event.pull_request.merged == true)}}  
@@ -98,7 +79,7 @@ jobs:
       with:
         body: |
           **A Unit tesztek sikeresen lefutottak!**
-          - ${{steps.run_testsn.outputs.test_outputn}}
+          - ${{ steps.hello.outputs.text }}
 
           
     - name: Sikertelen futas kommentje
@@ -108,7 +89,7 @@ jobs:
       with:
         body: |
           **A Unit tesztek hibat talaltak!**
-          - ${{steps.run_testsn.outputs.test_outputn}}
+          - ${{ steps.hello.outputs.text }}
 
           - [Ide kattintva talalsz bovebb informaciot][1]
 
