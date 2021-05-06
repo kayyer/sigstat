@@ -33,7 +33,9 @@ jobs:
     
     - name: Unit testek
       run: | 
-        vmi=$(dotnet test --logger "console;verbosity=normal" 2>&1)
+       
+        vmi=$(dotnet test --results-directory vmi.txt)
+        echo vmi.txt
         vmi="${$vmi//'%'/'%25'}"
         vmi="${$vmi//$'\n'/'%0A'}"
         vmi="${$vmi//$'\r'/'%0D'}"
