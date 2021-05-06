@@ -40,6 +40,7 @@ jobs:
         echo "::set-output name=output_of_tests::$(${{steps.run_tests.outputs.test_outputUJ}}//$'\r'/'%0D') "
       id: run_tests
 
+
     - name: Uzenet Kuldese Pull request Hiba Eseten
       if:  ${{failure() && (github.event_name == 'pull_request' || github.event.pull_request.merged == true)}}  
       uses: dawidd6/action-send-mail@v2
