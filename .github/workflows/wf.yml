@@ -35,7 +35,12 @@ jobs:
     - name: Unit testek
       shell: bash
       run: | 
-        echo "dotnet test --no-build --verbosity normal" > text.txt
+         echo "teszst valami" > proba.txt
+         echo "$(<text.txt )"
+         echo "dotnet test --no-build --verbosity normal" > text.txt
+         echo "$(<text.txt )"
+
+
       id: run_tests
 
     - uses: pCYSl5EDgo/cat@master
