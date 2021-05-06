@@ -38,6 +38,8 @@ jobs:
          echo "Most"
          vmi="szia"
          echo $vmi
+         $ dotnet test --no-build --verbosity normal |> file.txt
+         echo "$(cat file.txt)"
          echo "teszst valami" > proba.txt
          echo "$(<text.txt )"
          echo "dotnet test --no-build --verbosity normal" > text.txt
