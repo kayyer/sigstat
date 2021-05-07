@@ -50,7 +50,7 @@ jobs:
 
 
     - name: Uzenet Kuldese Pull request Hiba Eseten
-      if:  ${{failure() && (github.event_name == 'pull_request' }}  
+      if:  ${{failure() && github.event_name == 'pull_request' }}  
       uses: dawidd6/action-send-mail@v2
       with:
         server_address: smtp.gmail.com
