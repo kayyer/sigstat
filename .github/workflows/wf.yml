@@ -19,9 +19,7 @@ jobs:
     - name: Get email
       run: echo "EMAIL=$(git --no-pager log --format='%ae' -n1)" >> $GITHUB_ENV
       shell: bash
-    - name: status
-      run: git status
-      shell: bash
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
@@ -31,30 +29,17 @@ jobs:
       run: dotnet build
 
     
-    - name: Unit testek
+    - name: Unit tesztek - IDE KATTINTS A RÉSZLETES HIBÁKÉRT -
       shell: bash
       run: | 
          out=`echo "$(dotnet test --no-build --verbosity normal)"` 
-         echo $out
+         dotnet test --no-build --verbosity detailed
          out="${out//'%'/'%25'}"
          out="${out//$'\n'/'%0A'}"
          out="${out//$'\r'/'%0D'}"
-         echo "most"
+         tail -n +2 "$out"
          echo "::set-output name=text::$out"
-         echo "most2"
- 
-         outh=$(echo $(dotnet test --no-build --verbosity normal))
-         
- 
-
       id: run_tests
-
-    - uses: pCYSl5EDgo/cat@master
-      if: always()
-      id: hello
-      with:
-        path: text.txt
-
 
     - name: Uzenet Kuldese Pull request Hiba Eseten
       if:  ${{failure() && (github.event_name == 'pull_request' || github.event.pull_request.merged == true)}}  
@@ -101,7 +86,7 @@ jobs:
 
           - [Ide kattintva talalsz bovebb informaciot][1]
 
-          #[1]: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
+          [1]: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
  
 
 
