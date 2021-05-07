@@ -36,12 +36,12 @@ jobs:
       run: | 
        
          # dotnet test --no-build --verbosity normal
-         out=`dotnet test --no-build --verbosity minimal` 
+         out=`echo "$(dotnet test --no-build --verbosity minimal)"` 
          echo $out
-         outk=`dotnet test --no-build --verbosity minimal 2>&1` 
+         outk=`echo "$(dotnet test --no-build --verbosity minimal 2>&1)"`
+         outh=$(echo $(dotnet test --no-build --verbosity minimal))
          echo $outk
-         outh=`dotnet test --no-build --verbosity minimal 1>&2`
-         echo $outh 
+         echo $outh
 
       id: run_tests
 
