@@ -35,7 +35,7 @@ jobs:
       shell: bash
       run: | 
        
-         dotnet test --no-build --verbosity normal
+         # dotnet test --no-build --verbosity normal
          out=`dotnet test --no-build --verbosity minimal 2>&1` 
          echo $out
       id: run_tests
