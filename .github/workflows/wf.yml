@@ -38,10 +38,13 @@ jobs:
          # dotnet test --no-build --verbosity normal
          out=`echo "$(dotnet test --no-build --verbosity minimal)"` 
          echo $out
+         out="${out//'%'/'%25'}"
+         out="${out//$'\n'/'%0A'}"
+         out="${out//$'\r'/'%0D'}"
          echo "::set-output name=text::$out"
-       
+         
          outh=$(echo $(dotnet test --no-build --verbosity minimal))
-         echo $outk
+         
          echo $outh
 
       id: run_tests
