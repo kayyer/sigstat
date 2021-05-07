@@ -16,19 +16,41 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Get email
+      run: echo "EMAIL=$(git --no-pager log --format='%ae' -n1)" >> $GITHUB_ENV
+      shell: bash
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 2.2.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Unit Testek Futtatasa
-      run: dotnet test --no-build --verbosity normal
   
-    - name: Uzenet Kuldese Hiba Eseten
-      if:  ${{ failure() && github.event_name == 'pull_request'}}  
+    - name: Build
+      run: dotnet build
+
+    
+    - name: Unit teszt eredmenyek elmentese
+      shell: bash
+      run: | 
+         out=`echo "$(dotnet test --no-build --verbosity normal)"`
+         
+         out="${out//'%'/'%25'}"
+         out="${out//$'\n'/'%0A'}"
+         out="${out//$'\r'/'%0D'}"
+   
+         echo "::set-output name=text::$out"
+ 
+         outh=$(echo $(dotnet test --no-build --verbosity normal))
+         
+ 
+
+      id: run_tests
+
+    - name: Unit tesztelés
+      run: dotnet test --no-build --verbosity normal
+
+
+    - name: Uzenet Kuldese Pull request Hiba Eseten
+      if:  ${{failure() && (github.event_name == 'pull_request' || github.event.pull_request.merged == true)}}  
       uses: dawidd6/action-send-mail@v2
       with:
         server_address: smtp.gmail.com
@@ -36,9 +58,37 @@ jobs:
         username: ${{secrets.MAIL_USERNAME}}
         password: ${{secrets.MAIL_PASSWORD}}
         subject: Sikertelen Unit test
-        body: A unit tesztek hibat talaltak A Pull-Request linkje -> https://github.com/${{github.repository}}/pulls/${{github.event.number}}
-        to: ${{github.event.pusher.email}}
+        body: A unit tesztek hibat talaltak A Pull-Request linkje -> https://github.com/${{github.repository}}/pull/${{github.event.number}}
+        to: ${{env.EMAIL}}
         from: SigStat
-        
-              
-
+          
+    - name: Uzenet Kuldese Commit Hiba Eseten
+      if:  ${{failure() && github.event_name == 'push'}}  
+      uses: dawidd6/action-send-mail@v2
+      with:
+        server_address: smtp.gmail.com
+        server_port: 465
+        username: ${{secrets.MAIL_USERNAME}}
+        password: ${{secrets.MAIL_PASSWORD}}
+        subject: Sikertelen Unit test
+        body: A unit tesztek hibat talaltak! Link a commit-hoz -> https://github.com/${{github.repository}}/commit/${{github.sha}}
+        to: ${{env.EMAIL}}
+        from: SigStat
+    - name: Sikeres futas kommentje
+      if: success()
+      uses: peter-evans/commit-comment@v1
+      with:
+        body: |
+          **A Unit tesztek sikeresen lefutottak!**
+          - ${{ steps.run_tests.outputs.text }}
+          
+    - name: Sikertelen futas kommentje
+      if: failure()
+  
+      uses: peter-evans/commit-comment@v1
+      with:
+        body: |
+          **A Unit tesztek hibat talaltak!**
+          - ${{ steps.run_tests.outputs.text }}
+          
+ 
