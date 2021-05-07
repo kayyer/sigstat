@@ -50,7 +50,7 @@ jobs:
 
 
     - name: Uzenet Kuldese Pull request Hiba Eseten
-      if:  ${{failure() && (github.event_name == 'pull_request' || github.event.pull_request.merged == true)}}  
+      if:  ${{failure() && (github.event_name == 'pull_request' }}  
       uses: dawidd6/action-send-mail@v2
       with:
         server_address: smtp.gmail.com
@@ -63,7 +63,7 @@ jobs:
         from: SigStat
           
     - name: Uzenet Kuldese Commit Hiba Eseten
-      if:  ${{failure() && github.event_name == 'push'}}  
+      if:  ${{failure() && github.event_name == 'push' && github.event.pull_request.merged == false)}}  
       uses: dawidd6/action-send-mail@v2
       with:
         server_address: smtp.gmail.com
@@ -74,6 +74,20 @@ jobs:
         body: A unit tesztek hibat talaltak! Link a commit-hoz -> https://github.com/${{github.repository}}/commit/${{github.sha}}
         to: ${{env.EMAIL}}
         from: SigStat
+        
+    - name: Uzenet Kuldese Merge Hiba Eseten
+      if:  ${{failure() && github.event_name == 'push' && github.event.pull_request.merged == true)}}  
+      uses: dawidd6/action-send-mail@v2
+      with:
+        server_address: smtp.gmail.com
+        server_port: 465
+        username: ${{secrets.MAIL_USERNAME}}
+        password: ${{secrets.MAIL_PASSWORD}}
+        subject: Sikertelen Unit test
+        body: A unit tesztek hibat talaltak! Link a Merge-hez -> https://github.com/${{github.repository}}/commit/${{github.sha}}
+        to: ${{env.EMAIL}}
+        from: SigStat
+        
     - name: Sikeres futas kommentje
       if: success()
       uses: peter-evans/commit-comment@v1
