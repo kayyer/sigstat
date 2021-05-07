@@ -34,8 +34,8 @@ jobs:
     - name: Unit testek
       shell: bash
       run: | 
-         out=`echo "$(dotnet test --no-build --verbosity normal)"` 
-         tail -n +2 "$out" > "$out.tmp" && mv "$out.tmp" "$out"
+         out=`echo "$(dotnet test --no-build --verbosity normal)"`
+         dotnet test --no-build --verbosity detailed
          out="${out//'%'/'%25'}"
          out="${out//$'\n'/'%0A'}"
          out="${out//$'\r'/'%0D'}"
