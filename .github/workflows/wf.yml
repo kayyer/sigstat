@@ -26,17 +26,14 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 2.2.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
+ 
 
     
     - name: Unit testek
       shell: bash
       run: | 
        
-         dotnet test --no-build -l "file.txt;v=n"
+         dotnet test --verbosity normal
          echo `$(cat file.txt)`
         
 
