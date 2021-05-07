@@ -15,7 +15,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Get email
+    - name: Email megszerzése
       run: echo "EMAIL=$(git --no-pager log --format='%ae' -n1)" >> $GITHUB_ENV
       shell: bash
     - name: Setup .NET
@@ -27,7 +27,7 @@ jobs:
       run: dotnet build
 
     
-    - name: Unit teszt eredmenyek elmentese
+    - name: Unit teszt eredmények elmentése
       shell: bash
       run: | 
          out=`echo "$(dotnet test --no-build --verbosity normal)"`
@@ -41,7 +41,7 @@ jobs:
       run: dotnet test --no-build --verbosity normal
 
 
-    - name: Uzenet Kuldese Pull request Hiba Eseten
+    - name: Üzenet Küldése Pull request Hiba Esetén
       if:  ${{failure() && github.event_name == 'pull_request' }}  
       uses: dawidd6/action-send-mail@v2
       with:
@@ -50,11 +50,11 @@ jobs:
         username: ${{secrets.MAIL_USERNAME}}
         password: ${{secrets.MAIL_PASSWORD}}
         subject: Sikertelen Unit test
-        body: A unit tesztek hibat talaltak! A Pull-Request linkje -> https://github.com/${{github.repository}}/pull/${{github.event.number}}
+        body: A unit tesztek hibát találtak! A Pull-Request linkje -> https://github.com/${{github.repository}}/pull/${{github.event.number}}
         to: ${{env.EMAIL}}
         from: SigStat
           
-    - name: Uzenet Kuldese Push vagy Merge Hiba Eseten
+    - name: Üzenet Küldese Push vagy Merge Hiba Esetén
       if:  ${{failure() && github.event_name == 'push' && github.event.pull_request.merged == false}}  
       uses: dawidd6/action-send-mail@v2
       with:
@@ -63,24 +63,11 @@ jobs:
         username: ${{secrets.MAIL_USERNAME}}
         password: ${{secrets.MAIL_PASSWORD}}
         subject: Sikertelen Unit test
-        body: A unit tesztek hibat talaltak! Kattints a linkre további információkért -> https://github.com/${{github.repository}}/commit/${{github.sha}}
+        body: A unit tesztek hibát találtak! Kattints a linkre további információkért -> https://github.com/${{github.repository}}/commit/${{github.sha}}
         to: ${{env.EMAIL}}
         from: SigStat
         
-    - name: Uzenet Kuldese Merge Hiba Eseten
-      if:  ${{failure() && github.event_name == 'push' && github.event.pull_request.merged == true}}  
-      uses: dawidd6/action-send-mail@v2
-      with:
-        server_address: smtp.gmail.com
-        server_port: 465
-        username: ${{secrets.MAIL_USERNAME}}
-        password: ${{secrets.MAIL_PASSWORD}}
-        subject: Sikertelen Unit test
-        body: A unit tesztek hibat talaltak! Link a Merge-hez -> https://github.com/${{github.repository}}/commit/${{github.sha}}
-        to: ${{env.EMAIL}}
-        from: SigStat
-        
-    - name: Sikeres futas kommentje
+    - name: Sikeres futás kommentje
       if: success()
       uses: peter-evans/commit-comment@v1
       with:
@@ -88,9 +75,8 @@ jobs:
           **A Unit tesztek sikeresen lefutottak!**
           - ${{ steps.run_tests.outputs.text }}
           
-    - name: Sikertelen futas kommentje
+    - name: Sikertelen futás kommentje
       if: failure()
-  
       uses: peter-evans/commit-comment@v1
       with:
         body: |
