@@ -33,7 +33,7 @@ jobs:
       shell: bash
       run: | 
        
-         dotnet test --verbosity normal
+         dotnet test --verbosity minimal
          echo `$(cat file.txt)`
         
 
