@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: windows-latest
     defaults:
       run:
@@ -32,17 +31,10 @@ jobs:
       shell: bash
       run: | 
          out=`echo "$(dotnet test --no-build --verbosity normal)"`
-         
          out="${out//'%'/'%25'}"
          out="${out//$'\n'/'%0A'}"
          out="${out//$'\r'/'%0D'}"
-   
          echo "::set-output name=text::$out"
- 
-         outh=$(echo $(dotnet test --no-build --verbosity normal))
-         
- 
-
       id: run_tests
 
     - name: Unit tesztelés
