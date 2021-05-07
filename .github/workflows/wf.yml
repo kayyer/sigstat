@@ -35,7 +35,7 @@ jobs:
       shell: bash
       run: | 
          out=`echo "$(dotnet test --no-build --verbosity normal)"`
-         dotnet test --no-build --verbosity detailed
+         dotnet test --no-build --verbosity normal
          out="${out//'%'/'%25'}"
          out="${out//$'\n'/'%0A'}"
          out="${out//$'\r'/'%0D'}"
@@ -97,6 +97,5 @@ jobs:
         body: |
           **A Unit tesztek hibat talaltak!**
           - ${{ steps.run_tests.outputs.text }}
-          - [Ide kattintva talalsz bovebb informaciot][1]
-          #[1]: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
+          
  
