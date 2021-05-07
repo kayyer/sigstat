@@ -34,18 +34,18 @@ jobs:
     - name: Unit testek
       shell: bash
       run: | 
-       
-         # dotnet test --no-build --verbosity normal
-         out=`echo "$(dotnet test --no-build --verbosity minimal)"` 
+         out=`echo "$(dotnet test --no-build --verbosity normal)"` 
          echo $out
          out="${out//'%'/'%25'}"
          out="${out//$'\n'/'%0A'}"
          out="${out//$'\r'/'%0D'}"
+         echo "most"
          echo "::set-output name=text::$out"
+         echo "most2"
+ 
+         outh=$(echo $(dotnet test --no-build --verbosity normal))
          
-         outh=$(echo $(dotnet test --no-build --verbosity minimal))
-         
-         echo $outh
+ 
 
       id: run_tests
 
