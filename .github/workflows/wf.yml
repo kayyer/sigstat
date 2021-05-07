@@ -38,6 +38,11 @@ jobs:
          # dotnet test --no-build --verbosity normal
          out=`dotnet test --no-build --verbosity minimal` 
          echo $out
+         outk=`dotnet test --no-build --verbosity minimal 2>&1` 
+         echo $outk
+         outh=`dotnet test --no-build --verbosity minimal 1>&2`
+         echo $outh 
+
       id: run_tests
 
     - uses: pCYSl5EDgo/cat@master
