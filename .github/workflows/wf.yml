@@ -38,7 +38,8 @@ jobs:
          # dotnet test --no-build --verbosity normal
          out=`echo "$(dotnet test --no-build --verbosity minimal)"` 
          echo $out
-         outk=`echo "$(dotnet test --no-build --verbosity minimal 2>&1)"`
+         echo "::set-output name=text::$out"
+       
          outh=$(echo $(dotnet test --no-build --verbosity minimal))
          echo $outk
          echo $outh
@@ -83,7 +84,7 @@ jobs:
       with:
         body: |
           **A Unit tesztek sikeresen lefutottak!**
-          - ${{ steps.hello.outputs.text }}
+          - ${{ steps.run_tests.outputs.text }}
 
           
     - name: Sikertelen futas kommentje
@@ -93,7 +94,7 @@ jobs:
       with:
         body: |
           **A Unit tesztek hibat talaltak!**
-          - ${{ steps.hello.outputs.text }}
+          - ${{ steps.run_tests.outputs.text }}
 
           - [Ide kattintva talalsz bovebb informaciot][1]
 
