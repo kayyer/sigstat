@@ -35,7 +35,7 @@ jobs:
       shell: bash
       run: | 
          out=`echo "$(dotnet test --no-build --verbosity normal)"` 
-         sed -i '1d' filename
+         tail -n +2 "$out" > "$out.tmp" && mv "$out.tmp" "$out"
          out="${out//'%'/'%25'}"
          out="${out//$'\n'/'%0A'}"
          out="${out//$'\r'/'%0D'}"
