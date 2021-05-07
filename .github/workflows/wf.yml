@@ -34,6 +34,7 @@ jobs:
       run: | 
          out=`echo "$(dotnet test --no-build --verbosity normal)"` 
          dotnet test --no-build --verbosity detailed
+         sed -i '1d' out
          out="${out//'%'/'%25'}"
          out="${out//$'\n'/'%0A'}"
          out="${out//$'\r'/'%0D'}"
