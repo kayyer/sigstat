@@ -86,7 +86,7 @@ jobs:
 
           - [Ide kattintva talalsz bovebb informaciot][1]
 
-          [1]: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
+          # [1]: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
  
 
 
