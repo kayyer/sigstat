@@ -19,7 +19,9 @@ jobs:
     - name: Get email
       run: echo "EMAIL=$(git --no-pager log --format='%ae' -n1)" >> $GITHUB_ENV
       shell: bash
-
+    - name: status
+      run: git status
+      shell: bash
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
@@ -29,17 +31,30 @@ jobs:
       run: dotnet build
 
     
-    - name: Unit tesztek - IDE KATTINTS A RÉSZLETES HIBÁKÉRT -
+    - name: Unit testek
       shell: bash
       run: | 
          out=`echo "$(dotnet test --no-build --verbosity normal)"` 
-         dotnet test --no-build --verbosity detailed
-         sed -i '1d' out
+         sed -i '1d' filename
          out="${out//'%'/'%25'}"
          out="${out//$'\n'/'%0A'}"
          out="${out//$'\r'/'%0D'}"
+         echo "most"
          echo "::set-output name=text::$out"
+         echo "most2"
+ 
+         outh=$(echo $(dotnet test --no-build --verbosity normal))
+         
+ 
+
       id: run_tests
+
+    - uses: pCYSl5EDgo/cat@master
+      if: always()
+      id: hello
+      with:
+        path: text.txt
+
 
     - name: Uzenet Kuldese Pull request Hiba Eseten
       if:  ${{failure() && (github.event_name == 'pull_request' || github.event.pull_request.merged == true)}}  
@@ -73,7 +88,6 @@ jobs:
         body: |
           **A Unit tesztek sikeresen lefutottak!**
           - ${{ steps.run_tests.outputs.text }}
-
           
     - name: Sikertelen futas kommentje
       if: failure()
@@ -83,14 +97,6 @@ jobs:
         body: |
           **A Unit tesztek hibat talaltak!**
           - ${{ steps.run_tests.outputs.text }}
-
           - [Ide kattintva talalsz bovebb informaciot][1]
-
-          # [1]: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
+          #[1]: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
  
-
-
-
-
-         
-
