@@ -28,10 +28,10 @@ jobs:
       run: dotnet build
 
     
-    - name: Unit tesztek eredmenyek kommenthez
+    - name: Unit teszt eredmenyek elmentese
       shell: bash
       run: | 
-         out=`echo "$(dotnet test --no-build --verbosity quiet)"`
+         out=`echo "$(dotnet test --no-build --verbosity normal)"`
          
          out="${out//'%'/'%25'}"
          out="${out//$'\n'/'%0A'}"
