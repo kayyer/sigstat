@@ -58,11 +58,11 @@ jobs:
         username: ${{secrets.MAIL_USERNAME}}
         password: ${{secrets.MAIL_PASSWORD}}
         subject: Sikertelen Unit test
-        body: A unit tesztek hibat talaltak A Pull-Request linkje -> https://github.com/${{github.repository}}/pull/${{github.event.number}}
+        body: A unit tesztek hibat talaltak! A Pull-Request linkje -> https://github.com/${{github.repository}}/pull/${{github.event.number}}
         to: ${{env.EMAIL}}
         from: SigStat
           
-    - name: Uzenet Kuldese Commit Hiba Eseten
+    - name: Uzenet Kuldese Push vagy Merge Hiba Eseten
       if:  ${{failure() && github.event_name == 'push' && github.event.pull_request.merged == false}}  
       uses: dawidd6/action-send-mail@v2
       with:
@@ -71,7 +71,7 @@ jobs:
         username: ${{secrets.MAIL_USERNAME}}
         password: ${{secrets.MAIL_PASSWORD}}
         subject: Sikertelen Unit test
-        body: A unit tesztek hibat talaltak! Link a commit-hoz -> https://github.com/${{github.repository}}/commit/${{github.sha}}
+        body: A unit tesztek hibat talaltak! Kattints a linkre további információkért -> https://github.com/${{github.repository}}/commit/${{github.sha}}
         to: ${{env.EMAIL}}
         from: SigStat
         
