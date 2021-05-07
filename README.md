@@ -60,7 +60,4 @@ To reach the full potential of our project, we use some additional NuGet package
 
 Please open an [issue](https://github.com/sigstat/sigstat/issues/new) or, for sensitive information, email info@sigstat.com
 
-Szerintem ide kell még egy sor
-Meg egy második is
 
- Es
