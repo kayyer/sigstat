@@ -36,7 +36,7 @@ jobs:
       shell: bash
       run: | 
        
-         $(dotnet test --no-build --verbosity normal) |> file.txt
+         dotnet test --no-build --verbosity normal -l "console;v=d"
          echo `$(cat file.txt)`
         
 
