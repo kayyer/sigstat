@@ -63,7 +63,7 @@ jobs:
         from: SigStat
           
     - name: Uzenet Kuldese Commit Hiba Eseten
-      if:  ${{failure() && github.event_name == 'push' && github.event.pull_request.merged == false)}}  
+      if:  ${{failure() && github.event_name == 'push' && github.event.pull_request.merged == false}}  
       uses: dawidd6/action-send-mail@v2
       with:
         server_address: smtp.gmail.com
@@ -76,7 +76,7 @@ jobs:
         from: SigStat
         
     - name: Uzenet Kuldese Merge Hiba Eseten
-      if:  ${{failure() && github.event_name == 'push' && github.event.pull_request.merged == true)}}  
+      if:  ${{failure() && github.event_name == 'push' && github.event.pull_request.merged == true}}  
       uses: dawidd6/action-send-mail@v2
       with:
         server_address: smtp.gmail.com
