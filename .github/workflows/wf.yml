@@ -25,7 +25,6 @@ jobs:
   
     - name: Build
       run: dotnet build
-
     
     - name: Unit teszt eredmények elmentése
       shell: bash
@@ -39,7 +38,6 @@ jobs:
 
     - name: Unit tesztelés
       run: dotnet test --no-build --verbosity normal
-
 
     - name: Üzenet Küldése Pull request Hiba Esetén
       if:  ${{failure() && github.event_name == 'pull_request' }}  
@@ -82,5 +80,4 @@ jobs:
         body: |
           **A Unit tesztek hibat talaltak!**
           - ${{ steps.run_tests.outputs.text }}
-          
- 
+        
